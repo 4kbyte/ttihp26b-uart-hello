@@ -78,7 +78,7 @@ async def test_reset_aborts_frame_and_restarts_message(dut):
     await FallingEdge(dut.uart_tx)
     await Timer(BIT_TIME_NS // 2, unit="ns")
     dut.rst_n.value = 0
-    await RisingEdge(dut.clk)
+    await ClockCycles(dut.clk, 2)
     await Timer(CLOCK_PERIOD_NS // 2, unit="ns")
 
     assert dut.uart_tx.value == 1
