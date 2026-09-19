@@ -1,20 +1,28 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
-
 ## How it works
 
-Explain how your project works
+The design repeatedly transmits `Hello, TinyTapeout!\r\n` over a
+115200-baud UART. A state machine loads each byte from a fixed message table
+and shifts a start bit, eight data bits least-significant bit first, and one
+stop bit. Ten idle bit periods separate complete messages.
+
+The design expects the standard 50 MHz Tiny Tapeout project clock. Reset is
+active low; asserting `rst_n` immediately returns the UART output to its idle
+high level and restarts the message.
 
 ## How to test
 
-Explain how to use your project
+1. Select the project on the Tiny Tapeout demoboard.
+2. Set the project clock to 50 MHz.
+3. Configure the USB serial terminal for 115200 baud, 8 data bits, no parity,
+   and one stop bit.
+4. Reset the project.
+5. Confirm that `Hello, TinyTapeout!` appears repeatedly.
+
+The UART TX signal is on `uo_out[4]`, the standard demoboard UART-to-USB
+mapping. `ui_in[3]` is reserved for a future UART RX extension and is ignored
+by this version.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+No external hardware is required beyond a Tiny Tapeout demoboard and its USB
+connection.
