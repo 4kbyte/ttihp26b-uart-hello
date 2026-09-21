@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2026 Rom DuPlain
+ * Copyright (c) 2026 Rom DuPlain (@4kbyte)
  * SPDX-License-Identifier: Apache-2.0
  */
 
 `default_nettype none
 
-module tt_um_4kbyte_uart_hello #(
+module tt_um_romd_uart_hello #(
     parameter integer CLOCK_HZ = 50_000_000,
     parameter integer BAUD_RATE = 115_200,
     parameter integer INTER_MESSAGE_DELAY_MS = 1_000

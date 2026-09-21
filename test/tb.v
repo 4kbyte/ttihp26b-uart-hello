@@ -25,13 +25,13 @@ module tb ();
   wire uart_tx = uo_out[4];
 
 `ifndef GL_TEST
-  tt_um_4kbyte_uart_hello #(
+  tt_um_romd_uart_hello #(
       .CLOCK_HZ(50_000),
       .BAUD_RATE(115),
       .INTER_MESSAGE_DELAY_MS(1_000)
   ) user_project (
 `else
-  tt_um_4kbyte_uart_hello user_project (
+  tt_um_romd_uart_hello user_project (
 `endif
       .ui_in  (ui_in),    // Dedicated inputs
       .uo_out (uo_out),   // Dedicated outputs
