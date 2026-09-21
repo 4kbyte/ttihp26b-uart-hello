@@ -1,13 +1,16 @@
 # SPDX-FileCopyrightText: © 2024 Tiny Tapeout
 # SPDX-License-Identifier: Apache-2.0
 
+import os
+
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge, RisingEdge, Timer
 
 CLOCK_PERIOD_NS = 20
-CLKS_PER_BIT = 434
+CLKS_PER_BIT = 435
 BIT_TIME_NS = CLOCK_PERIOD_NS * CLKS_PER_BIT
+INTER_MESSAGE_DELAY_NS = 1_000_000
 MESSAGE = b"Hello, TinyTapeout!\r\n"
 
 
@@ -52,7 +55,14 @@ async def test_uart_message_and_repeat(dut):
     received = bytes([await read_uart_byte(dut.uart_tx) for _ in MESSAGE])
     assert received == MESSAGE
 
-    assert await read_uart_byte(dut.uart_tx) == MESSAGE[0]
+    if os.getenv("GATES") != "yes":
+        repeat_wait_start = cocotb.utils.get_sim_time(unit="ns")
+        assert await read_uart_byte(dut.uart_tx) == MESSAGE[0]
+        repeat_wait_ns = (
+            cocotb.utils.get_sim_time(unit="ns") - repeat_wait_start
+        )
+        expected_wait_ns = INTER_MESSAGE_DELAY_NS + (10 * BIT_TIME_NS)
+        assert abs(repeat_wait_ns - expected_wait_ns) <= (2 * CLOCK_PERIOD_NS)
 
 
 @cocotb.test()

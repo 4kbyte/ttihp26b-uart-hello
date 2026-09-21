@@ -7,7 +7,8 @@
 
 module tt_um_4kbyte_uart_hello #(
     parameter integer CLOCK_HZ = 50_000_000,
-    parameter integer BAUD_RATE = 115_200
+    parameter integer BAUD_RATE = 115_200,
+    parameter integer INTER_MESSAGE_DELAY_MS = 1_000
 ) (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
@@ -21,7 +22,8 @@ module tt_um_4kbyte_uart_hello #(
 
   localparam integer CLKS_PER_BIT = (CLOCK_HZ + (BAUD_RATE / 2)) / BAUD_RATE;
   localparam integer MESSAGE_LENGTH = 21;
-  localparam integer INTER_MESSAGE_CLKS = CLKS_PER_BIT * 10;
+  localparam integer INTER_MESSAGE_CLKS =
+      CLOCK_HZ * (INTER_MESSAGE_DELAY_MS / 1_000);
 
   reg [31:0] baud_counter;
   reg [31:0] pause_counter;
