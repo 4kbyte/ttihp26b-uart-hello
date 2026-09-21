@@ -21,7 +21,7 @@ module tt_um_4kbyte_uart_hello #(
 );
 
   localparam integer CLKS_PER_BIT = (CLOCK_HZ + (BAUD_RATE / 2)) / BAUD_RATE;
-  localparam integer MESSAGE_LENGTH = 21;
+  localparam [4:0] MESSAGE_LENGTH = 5'd21;
   localparam integer INTER_MESSAGE_CLKS =
       CLOCK_HZ * (INTER_MESSAGE_DELAY_MS / 1_000);
 
