@@ -20,5 +20,4 @@ cd test
 make -B
 ```
 
-See the [project datasheet](docs/info.md) for implementation and demoboard
-bring-up details.
+See [datasheet](docs/info.md) for devkit bring-up.
