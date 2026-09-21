@@ -39,11 +39,18 @@ TOPLEVEL = tb
 # List test modules to run, separated by commas and without the .py suffix:
 COCOTB_TEST_MODULES = test
 
-.PHONY: all subsecond
+.PHONY: all production-timing subsecond
 ifeq ($(GATES),yes)
 all: sim
 else
-all: subsecond
+all: production-timing
+
+production-timing: subsecond
+	rm -rf sim_build/rtl-production
+	CLOCK_HZ=50000000 BAUD_RATE=115200 $(MAKE) sim \
+		SIM_BUILD=sim_build/rtl-production \
+		COMPILE_ARGS="-I$(SRC_DIR) -Ptb.CLOCK_HZ=50000000 -Ptb.BAUD_RATE=115200" \
+		COCOTB_TEST_FILTER=test_uart_bit_period
 
 subsecond: sim
 	rm -rf sim_build/rtl-subsecond

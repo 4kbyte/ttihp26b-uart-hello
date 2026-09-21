@@ -8,7 +8,10 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge, RisingEdge, Timer
 
 CLOCK_PERIOD_NS = 20
-CLKS_PER_BIT = 435
+GATES = os.getenv("GATES") == "yes"
+CLOCK_HZ = int(os.getenv("CLOCK_HZ", "50000000" if GATES else "50000"))
+BAUD_RATE = int(os.getenv("BAUD_RATE", "115200" if GATES else "115"))
+CLKS_PER_BIT = (CLOCK_HZ + (BAUD_RATE // 2)) // BAUD_RATE
 BIT_TIME_NS = CLOCK_PERIOD_NS * CLKS_PER_BIT
 INTER_MESSAGE_DELAY_NS = int(os.getenv("INTER_MESSAGE_DELAY_NS", "1000000"))
 MESSAGE = b"Hello, TinyTapeout!\r\n"
@@ -55,7 +58,7 @@ async def test_uart_message_and_repeat(dut):
     received = bytes([await read_uart_byte(dut.uart_tx) for _ in MESSAGE])
     assert received == MESSAGE
 
-    if os.getenv("GATES") != "yes":
+    if not GATES:
         repeat_wait_start = cocotb.utils.get_sim_time(unit="ns")
         assert await read_uart_byte(dut.uart_tx) == MESSAGE[0]
         repeat_wait_ns = (
@@ -77,7 +80,8 @@ async def test_uart_bit_period(dut):
     await RisingEdge(dut.uart_tx)
     elapsed_ns = cocotb.utils.get_sim_time(unit="ns") - start_time
 
-    assert abs(elapsed_ns - BIT_TIME_NS) <= CLOCK_PERIOD_NS
+    tolerance_ns = CLOCK_PERIOD_NS if GATES else 0
+    assert abs(elapsed_ns - BIT_TIME_NS) <= tolerance_ns
 
 
 @cocotb.test()

@@ -2,6 +2,8 @@
 `timescale 1ns / 1ps
 
 module tb #(
+  parameter integer CLOCK_HZ = 50_000,
+  parameter integer BAUD_RATE = 115,
   parameter integer INTER_MESSAGE_DELAY_MS = 1_000
 );
 
@@ -24,8 +26,8 @@ module tb #(
 
 `ifndef GL_TEST
   tt_um_romd_uart_hello #(
-    .CLOCK_HZ              (50_000),
-    .BAUD_RATE             (115),
+    .CLOCK_HZ              (CLOCK_HZ),
+    .BAUD_RATE             (BAUD_RATE),
     .INTER_MESSAGE_DELAY_MS(INTER_MESSAGE_DELAY_MS)
   ) user_project (
 `else
