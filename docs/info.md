@@ -28,10 +28,12 @@ by this version. All other output pins are held low.
 The submitted physical design meets its 50 MHz clock constraint across the
 analyzed process, voltage, and temperature corners, with no setup or hold
 violations. Explore the layout using the
-[Tiny Tapeout 3D viewer](https://4kbyte.github.io/ttihp26b-uart-hello/) or
-[GDS Explorer](https://gds-explorer.tinytapeout.com/viewer.html?file=https%3A%2F%2Fraw.githubusercontent.com%2FTinyTapeout%2Ftinytapeout-ihp-26b%2Fmain%2Fprojects%2Ftt_um_romd_uart_hello%2Ftt_um_romd_uart_hello.oas&pdk=ihp-sg13g2).
+[Tiny Tapeout 3D viewer][viewer] or [GDS Explorer][gds-explorer].
 
 ## External Hardware
 
 No external hardware is required beyond a Tiny Tapeout demoboard and its USB
 connection.
+
+[viewer]: https://4kbyte.github.io/ttihp26b-uart-hello/
+[gds-explorer]: https://gds-explorer.tinytapeout.com/viewer.html?file=https%3A%2F%2Fraw.githubusercontent.com%2FTinyTapeout%2Ftinytapeout-ihp-26b%2Fmain%2Fprojects%2Ftt_um_romd_uart_hello%2Ftt_um_romd_uart_hello.oas&pdk=ihp-sg13g2
