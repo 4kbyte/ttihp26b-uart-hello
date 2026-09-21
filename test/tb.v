@@ -1,7 +1,9 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module tb;
+module tb #(
+  parameter integer INTER_MESSAGE_DELAY_MS = 1_000
+);
 
   initial begin
     $dumpfile("tb.fst");
@@ -24,7 +26,7 @@ module tb;
   tt_um_romd_uart_hello #(
     .CLOCK_HZ              (50_000),
     .BAUD_RATE             (115),
-    .INTER_MESSAGE_DELAY_MS(1_000)
+    .INTER_MESSAGE_DELAY_MS(INTER_MESSAGE_DELAY_MS)
   ) user_project (
 `else
   tt_um_romd_uart_hello user_project (

@@ -10,7 +10,7 @@ from cocotb.triggers import ClockCycles, FallingEdge, RisingEdge, Timer
 CLOCK_PERIOD_NS = 20
 CLKS_PER_BIT = 435
 BIT_TIME_NS = CLOCK_PERIOD_NS * CLKS_PER_BIT
-INTER_MESSAGE_DELAY_NS = 1_000_000
+INTER_MESSAGE_DELAY_NS = int(os.getenv("INTER_MESSAGE_DELAY_NS", "1000000"))
 MESSAGE = b"Hello, TinyTapeout!\r\n"
 
 

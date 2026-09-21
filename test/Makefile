@@ -39,5 +39,19 @@ TOPLEVEL = tb
 # List test modules to run, separated by commas and without the .py suffix:
 COCOTB_TEST_MODULES = test
 
+.PHONY: all subsecond
+ifeq ($(GATES),yes)
+all: sim
+else
+all: subsecond
+
+subsecond: sim
+	rm -rf sim_build/rtl-subsecond
+	INTER_MESSAGE_DELAY_NS=250000 $(MAKE) sim \
+		SIM_BUILD=sim_build/rtl-subsecond \
+		COMPILE_ARGS="-I$(SRC_DIR) -Ptb.INTER_MESSAGE_DELAY_MS=250" \
+		COCOTB_TEST_FILTER=test_uart_message_and_repeat
+endif
+
 # include cocotb's make rules to take care of the simulator setup
 include $(shell cocotb-config --makefiles)/Makefile.sim
