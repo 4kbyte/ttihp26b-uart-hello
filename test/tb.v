@@ -24,7 +24,7 @@ module tb;
   tt_um_romd_uart_hello #(
     .CLOCK_HZ              (50_000),
     .BAUD_RATE             (115),
-    .INTER_MESSAGE_DELAY_MS(250)
+    .INTER_MESSAGE_DELAY_MS(1_000)
   ) user_project (
 `else
   tt_um_romd_uart_hello user_project (
