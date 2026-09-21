@@ -22,11 +22,15 @@ module tt_um_romd_uart_hello #(
 
   localparam integer CLKS_PER_BIT = (CLOCK_HZ + (BAUD_RATE / 2)) / BAUD_RATE;
   localparam [4:0] MESSAGE_LENGTH = 5'd21;
-  localparam integer INTER_MESSAGE_CLKS =
-      CLOCK_HZ * (INTER_MESSAGE_DELAY_MS / 1_000);
+  localparam [63:0] INTER_MESSAGE_CLKS =
+      (64'(CLOCK_HZ) * INTER_MESSAGE_DELAY_MS) / 1_000;
+  localparam integer BAUD_COUNTER_WIDTH =
+      CLKS_PER_BIT > 1 ? $clog2(CLKS_PER_BIT) : 1;
+  localparam integer PAUSE_COUNTER_WIDTH =
+      INTER_MESSAGE_CLKS > 1 ? $clog2(INTER_MESSAGE_CLKS) : 1;
 
-  reg [31:0] baud_counter;
-  reg [31:0] pause_counter;
+  reg [BAUD_COUNTER_WIDTH-1:0] baud_counter;
+  reg [PAUSE_COUNTER_WIDTH-1:0] pause_counter;
   reg [9:0] shift_register;
   reg [4:0] message_index;
   reg [3:0] bit_index;
